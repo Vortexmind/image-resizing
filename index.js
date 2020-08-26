@@ -32,7 +32,7 @@ async function handleRequest(request) {
   if (imageUrl.getSize() > 1000 || imageUrl.getSize() < 0) options.cf.image.width = 1000
   if (acceptHeader.includes('image/webp')) options.cf.image.format = 'webp'
   // prefer avif if available
-  if (acceptHeader.includes('image/avif')) options.cf.image.format = 'avif'
+  //if (acceptHeader.includes('image/avif')) options.cf.image.format = 'avif'
 
   const imageRequest = new Request(imageUrl.getUnsizedUrl(), {
     headers: request.headers
