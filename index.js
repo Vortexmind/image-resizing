@@ -28,6 +28,8 @@ async function handleRequest(request) {
   const imageUrl = new ImageComponents(request.url)
 
   if (imageUrl.getSize() > 0) options.cf.image.width = imageUrl.getSize()
+  // Cap size at 1000px if larger or if not defined
+  if (imageUrl.getSize() > 1000 || imageUrl.getSize() < 0) options.cf.image.width = 1000
   if (acceptHeader.includes('image/webp')) options.cf.image.format = 'webp'
   // prefer avif if available
   if (acceptHeader.includes('image/avif')) options.cf.image.format = 'avif'
