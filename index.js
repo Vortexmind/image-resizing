@@ -13,7 +13,6 @@ addEventListener('fetch', event => {
  * @param {Request} request
  */
 async function handleRequest(request) {
-
   const acceptHeader = request.headers.get('Accept') || ''
 
   let options = {
