@@ -24,7 +24,7 @@ async function handleRequest(request) {
     }
   }
 
-  const imageUrl = new ImageComponents(event.request.url)
+  const imageUrl = new ImageComponents(request.url)
 
   if (imageUrl.getSize() > 0) options.cf.image.width = imageUrl.getSize()
 
