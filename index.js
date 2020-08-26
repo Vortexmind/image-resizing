@@ -13,13 +13,15 @@ addEventListener('fetch', event => {
  * @param {Request} request
  */
 async function handleRequest(request) {
+
+  const acceptHeader = request.headers.get('Accept') || ''
+
   let options = {
     cf: {
       image: {
         quality: '85',
         fit: 'scale-down',
-        metadata: 'copyright',
-        sharpen: 1.0
+        metadata: 'copyright'
       }
     }
   }
@@ -27,6 +29,9 @@ async function handleRequest(request) {
   const imageUrl = new ImageComponents(request.url)
 
   if (imageUrl.getSize() > 0) options.cf.image.width = imageUrl.getSize()
+  if (acceptHeader.includes('image/webp')) options.cf.image.format = 'webp'
+  // prefer avif if available
+  if (acceptHeader.includes('image/avif')) options.cf.image.format = 'avif'
 
   const imageRequest = new Request(imageUrl.getUnsizedUrl(), {
     headers: request.headers
