@@ -5,8 +5,14 @@
   "description": "Image resizing via Cloudflare Worker resizing API",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "eslint --fix . && echo 'Lint complete.'"
+  },
+  "jest" : {
+    "collectCoverageFrom": [
+      "index.js",
+      "src/*.js"
+    ]
   },
   "author": "Paolo Tagliaferri <me@paolotagliaferri.com>",
   "license": "MIT",
