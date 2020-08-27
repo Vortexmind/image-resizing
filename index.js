@@ -28,10 +28,11 @@ async function handleRequest(request) {
   }
 
   const imageUrl = new ImageComponents(request.url)
+  const urlSize = imageUrl.getSize()
 
-  if (imageUrl.getSize() > 0) options.cf.image.width = imageUrl.getSize()
+  if (urlSize > 0) options.cf.image.width = urlSize
   // Cap size at 1000px if larger or if not defined
-  if (imageUrl.getSize() > 1000 || imageUrl.getSize() < 0)
+  if (urlSize > 1000 || urlSize < 0)
     options.cf.image.width = 1000
 
   if (request.url.endsWith('.gif')) {
