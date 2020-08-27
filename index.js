@@ -9,31 +9,23 @@ addEventListener('fetch', (event) => {
 
   event.respondWith(handleRequest(event.request))
 })
-/**
- * Respond with hello worker text
- * @param {Request} request
- */
-async function handleRequest(request) {
-  const acceptHeader = request.headers.get('Accept') || ''
 
+function populateResizeOptions(imgComponents, request) {
   let options = {
     cf: {
       image: {
         quality: '85',
         fit: 'scale-down',
         metadata: 'copyright',
-        sharpen: 1.0
+        sharpen: 1.0,
       },
     },
   }
-
-  const imageUrl = new ImageComponents(request.url)
-  const urlSize = imageUrl.getSize()
-
+  const acceptHeader = request.headers.get('Accept') || ''
+  const urlSize = imgComponents.getSize()
   if (urlSize > 0) options.cf.image.width = urlSize
   // Cap size at 1000px if larger or if not defined
-  if (urlSize > 1000 || urlSize < 0)
-    options.cf.image.width = 1000
+  if (urlSize > 1000 || urlSize < 0) options.cf.image.width = 1000
 
   if (request.url.endsWith('.gif')) {
     options.cf.image.format = 'auto'
@@ -42,8 +34,14 @@ async function handleRequest(request) {
   } else {
     options.cf.image.format = 'auto'
   }
+  return options
+}
 
-  const imageRequest = new Request(imageUrl.getUnsizedUrl(), {
+async function handleRequest(request) {
+  const imgComponents = new ImageComponents(request.url)
+  const options = populateResizeOptions(imgComponents, request)
+
+  const imageRequest = new Request(imgComponents.getUnsizedUrl(), {
     headers: request.headers,
   })
 
@@ -53,6 +51,6 @@ async function handleRequest(request) {
     return response
   } else {
     // Use original image
-    return response.redirect(imageUrl.getInputUrl(), 307)
+    return response.redirect(imgComponents.getInputUrl(), 307)
   }
 }
