@@ -1,6 +1,7 @@
 const ImageComponents = require('./src/imageComponents')
 
-addEventListener('fetch', event => {
+addEventListener('fetch', (event) => {
+  event.passThroughOnException()
   /* Get the origin image if the request is from the resizer worker itself */
   if (/image-resizing/.test(event.request.headers.get('via'))) {
     return fetch(event.request)
@@ -20,22 +21,29 @@ async function handleRequest(request) {
       image: {
         quality: '85',
         fit: 'scale-down',
-        metadata: 'copyright'
-      }
-    }
+        metadata: 'copyright',
+        sharpen: 1.0
+      },
+    },
   }
 
   const imageUrl = new ImageComponents(request.url)
 
   if (imageUrl.getSize() > 0) options.cf.image.width = imageUrl.getSize()
   // Cap size at 1000px if larger or if not defined
-  if (imageUrl.getSize() > 1000 || imageUrl.getSize() < 0) options.cf.image.width = 1000
-  if (acceptHeader.includes('image/webp')) options.cf.image.format = 'webp'
-  // prefer avif if available
-  //if (acceptHeader.includes('image/avif')) options.cf.image.format = 'avif'
+  if (imageUrl.getSize() > 1000 || imageUrl.getSize() < 0)
+    options.cf.image.width = 1000
+
+  if (request.url.endsWith('.gif')) {
+    options.cf.image.format = 'auto'
+  } else if (acceptHeader.includes('image/webp')) {
+    options.cf.image.format = 'webp'
+  } else {
+    options.cf.image.format = 'auto'
+  }
 
   const imageRequest = new Request(imageUrl.getUnsizedUrl(), {
-    headers: request.headers
+    headers: request.headers,
   })
 
   const response = await fetch(imageRequest, options)
@@ -43,6 +51,7 @@ async function handleRequest(request) {
   if (response.ok) {
     return response
   } else {
+    // Use original image
     return response.redirect(imageUrl.getInputUrl(), 307)
   }
 }
