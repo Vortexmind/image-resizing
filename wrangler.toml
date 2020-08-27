@@ -1,6 +1,6 @@
 name = "image-resizing"
 type = "webpack"
 account_id = ""
-workers_dev = true
+workers_dev = false
 route = ""
 zone_id = ""
