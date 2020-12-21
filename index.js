@@ -59,3 +59,4 @@ async function handleRequest(request, sentry) {
   } catch (err) {
     sentry.captureException(err)
   }
+}
