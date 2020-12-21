@@ -26,6 +26,7 @@
     "prettier": "2.2.1"
   },
   "dependencies": {
-    "kind-of": "6.0.3"
+    "kind-of": "6.0.3",
+    "toucan-js": "^2.2.0"
   }
 }
