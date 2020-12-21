@@ -33,6 +33,12 @@ function populateResizeOptions(imgComponents, request) {
   } else {
     options.cf.image.format = 'auto'
   }
+
+  /* Prefer AVIF over other formats if available */
+  if(acceptHeader.includes('image/avif')) {
+    options.cf.image.format = 'avif'
+  }
+
   return options
 }
 
