@@ -27,7 +27,7 @@ async function handleRequest(request, sentry) {
     if (response.ok) {
       return response
     } else {
-      sentry.captureMessage("Image resizing failed")
+      sentry.captureMessage("Image resizing failed: " + response.headers.get('Cf-Resized'))
     }
   } catch (err) {
     sentry.captureException(err)
