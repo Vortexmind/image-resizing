@@ -1,13 +1,12 @@
 const ImageComponents = require('./src/imageComponents')
+import Toucan from "toucan-js";
 
 addEventListener('fetch', (event) => {
-  event.passThroughOnException()
-  /* Get the origin image if the request is from the resizer worker itself */
-  if (/image-resizing/.test(event.request.headers.get('via'))) {
-    return fetch(event.request)
-  }
-
-  event.respondWith(handleRequest(event.request))
+  const sentry = new Toucan({
+    dsn: SENTRY_DSN,
+    event
+  })
+  event.respondWith(handleRequest(event.request, sentry))
 })
 
 function populateResizeOptions(imgComponents, request) {
@@ -37,20 +36,31 @@ function populateResizeOptions(imgComponents, request) {
   return options
 }
 
-async function handleRequest(request) {
-  const imgComponents = new ImageComponents(request.url)
-  const options = populateResizeOptions(imgComponents, request)
+async function handleRequest(request, sentry) {
+  try {
 
-  const imageRequest = new Request(imgComponents.getUnsizedUrl(), {
-    headers: request.headers,
-  })
+    /* Get the origin image if the request is from the resizer worker itself */
+    if (/image-resizing/.test(request.headers.get('via'))) {
+      return fetch(request)
+    }
+    const imgComponents = new ImageComponents(request.url)
+    const options = populateResizeOptions(imgComponents, request)
 
-  const response = await fetch(imageRequest, options)
+    const imageRequest = new Request(imgComponents.getUnsizedUrl(), {
+      headers: request.headers,
+    })
 
-  if (response.ok) {
-    return response
-  } else {
-    // Use original image
-    return response.redirect(imgComponents.getInputUrl(), 307)
+    const response = await fetch(imageRequest, options)
+
+    if (response.ok) {
+      return response
+    } else {
+      // Use original image
+      return Response.redirect(imgComponents.getInputUrl(), 307)
+    }
+  } catch (err) {
+    /* Log exception and return original image */
+    sentry.captureException(err)
+    return Response.redirect(imgComponents.getInputUrl(), 307)
   }
 }

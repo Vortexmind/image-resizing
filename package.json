@@ -8,7 +8,7 @@
     "test": "jest --coverage",
     "lint": "eslint --fix . && echo 'Lint complete.'"
   },
-  "jest" : {
+  "jest": {
     "collectCoverageFrom": [
       "index.js",
       "src/*.js"
@@ -26,6 +26,7 @@
     "prettier": "2.2.1"
   },
   "dependencies": {
-    "kind-of": "6.0.3"
+    "kind-of": "6.0.3",
+    "toucan-js": "^2.2.0"
   }
 }
