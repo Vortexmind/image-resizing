@@ -36,7 +36,6 @@ function populateResizeOptions(imgComponents, request) {
   return options
 }
 
-async function handleRequest(request, sentry) {
   try {
 
     /* Get the origin image if the request is from the resizer worker itself */
@@ -59,4 +58,3 @@ async function handleRequest(request, sentry) {
   } catch (err) {
     sentry.captureException(err)
   }
-}
