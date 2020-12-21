@@ -49,8 +49,5 @@ async function handleRequest(request) {
 
   if (response.ok) {
     return response
-  } else {
-    // Use original image
-    return fetch(request)
   }
 }
