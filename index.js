@@ -51,6 +51,6 @@ async function handleRequest(request) {
     return response
   } else {
     // Use original image
-    return response.redirect(imgComponents.getInputUrl(), 307)
+    return Response.redirect(imgComponents.getInputUrl(), 307)
   }
 }
