@@ -51,16 +51,12 @@ async function handleRequest(request, sentry) {
     })
 
     const response = await fetch(imageRequest, options)
-
     if (response.ok) {
       return response
     } else {
-      // Use original image
-      return Response.redirect(imgComponents.getInputUrl(), 307)
+      sentry.captureMessage("Image resizing failed")
     }
   } catch (err) {
-    /* Log exception and return original image */
     sentry.captureException(err)
-    return Response.redirect(imgComponents.getInputUrl(), 307)
   }
 }
