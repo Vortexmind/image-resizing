@@ -27,9 +27,9 @@ class ResizerOptions {
         }
       
         /* Prefer AVIF over other formats if available */
-        if(acceptHeader.includes('image/avif')) {
+        /*if(acceptHeader.includes('image/avif')) {
             this.options.cf.image.format = 'avif'
-        }
+        }*/
       
         return this.options
     }
