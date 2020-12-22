@@ -32,8 +32,10 @@ async function handleRequest(request, sentry) {
       return response
     } else {
       sentry.captureMessage('Image resizing failed: ' + response.status)
+      return response
     }
   } catch (err) {
     sentry.captureException(err)
+    return new Response('Error fetching image', { status: 500 })
   }
 }
