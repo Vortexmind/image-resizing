@@ -7,7 +7,7 @@ import ResizerOptions from './src/resizerOptions'
 
 addEventListener('fetch', (event) => {
   let sentry = {}
-  if (USE_SENTRY === "true") {
+  if (USE_SENTRY === 'true') {
     sentry = new Toucan({
       dsn: SENTRY_DSN,
       event,
@@ -35,13 +35,13 @@ async function handleRequest(request, sentry) {
     if (response.ok) {
       return response
     } else {
-      if (USE_SENTRY === "true") {
+      if (USE_SENTRY === 'true') {
         sentry.captureMessage('Image resizing failed: ' + response.status)
       }
       return response
     }
   } catch (err) {
-    if (USE_SENTRY === "true") {
+    if (USE_SENTRY === 'true') {
       sentry.captureException(err)
     }
     return new Response('Error fetching image', { status: 500 })
