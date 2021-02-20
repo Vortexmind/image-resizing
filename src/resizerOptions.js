@@ -17,7 +17,6 @@ class ResizerOptions {
   getOptions() {
     const acceptHeader = this.headers.get('Accept') || ''
     if (this.size > 0) this.options.cf.image.width = this.size
-    // Cap size at 1000px if larger or if not defined
     if (this.size > 1000 || this.size < 0) this.options.cf.image.width = 1000
 
     if (acceptHeader.includes('image/webp')) {
@@ -25,11 +24,6 @@ class ResizerOptions {
     } else {
       this.options.cf.image.format = 'auto'
     }
-
-    /* Prefer AVIF over other formats if available */
-    /*if(acceptHeader.includes('image/avif')) {
-            this.options.cf.image.format = 'avif'
-        }*/
 
     return this.options
   }
