@@ -4,3 +4,4 @@ account_id = ""
 workers_dev = true
 route = ""
 zone_id = ""
+vars = { USE_SENTRY = false }

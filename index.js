@@ -1,14 +1,18 @@
 /*global SENTRY_DSN*/
+/*global USE_SENTRY*/
 
 import ImageComponents from './src/imageComponents'
 import Toucan from 'toucan-js'
 import ResizerOptions from './src/resizerOptions'
 
 addEventListener('fetch', (event) => {
-  const sentry = new Toucan({
-    dsn: SENTRY_DSN,
-    event,
-  })
+  let sentry = {}
+  if (USE_SENTRY) {
+    sentry = new Toucan({
+      dsn: SENTRY_DSN,
+      event,
+    })
+  }
   event.respondWith(handleRequest(event.request, sentry))
 })
 
@@ -31,11 +35,15 @@ async function handleRequest(request, sentry) {
     if (response.ok) {
       return response
     } else {
-      sentry.captureMessage('Image resizing failed: ' + response.status)
+      if (USE_SENTRY) {
+        sentry.captureMessage('Image resizing failed: ' + response.status)
+      }
       return response
     }
   } catch (err) {
-    sentry.captureException(err)
+    if (USE_SENTRY) {
+      sentry.captureException(err)
+    }
     return new Response('Error fetching image', { status: 500 })
   }
 }
