@@ -16,6 +16,15 @@ addEventListener('fetch', (event) => {
   event.respondWith(handleRequest(event.request, sentry))
 })
 
+function sentryWrapper(isException, sentry, payload) {
+  if (USE_SENTRY !== 'true') return
+  if (isException) {
+    sentry.captureException(payload)
+  } else {
+    sentry.captureMessage(payload)
+  }
+}
+
 async function handleRequest(request, sentry) {
   try {
     /* Get the origin image if the request is from the resizer worker itself */
@@ -35,15 +44,11 @@ async function handleRequest(request, sentry) {
     if (response.ok) {
       return response
     } else {
-      if (USE_SENTRY === 'true') {
-        sentry.captureMessage('Image resizing failed: ' + response.status)
-      }
+      sentryWrapper(false, sentry, 'Image resizing failed: ' + response.status)
       return response
     }
   } catch (err) {
-    if (USE_SENTRY === 'true') {
-      sentry.captureException(err)
-    }
+    sentryWrapper(true, sentry, err)
     return new Response('Error fetching image', { status: 500 })
   }
 }
