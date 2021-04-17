@@ -32,6 +32,12 @@ async function handleRequest(request, sentry) {
       return fetch(request)
     }
     const imgComponents = new ImageComponents(request.url)
+
+    // Do not attempt to resize svg
+    if (imgComponents.getExtension === '.svg') {
+      return fetch(request)
+    }
+
     const imageResizerOptions = new ResizerOptions(
       request.headers,
       imgComponents.getSize()

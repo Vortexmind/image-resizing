@@ -1,4 +1,5 @@
 var kindOf = require('kind-of')
+var path = require('path')
 
 class ImageComponents {
   constructor(url) {
@@ -25,6 +26,10 @@ class ImageComponents {
 
   getInputUrl() {
     return this.inputUrl
+  }
+
+  getExtension() {
+    return path.extname(this.inputUrl)
   }
 }
 
