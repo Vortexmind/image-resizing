@@ -22,7 +22,8 @@
     "eslint-plugin-markdown": "2.2.0",
     "eslint-plugin-prettier": "3.4.0",
     "eslint-plugin-yaml": "0.4.2",
-    "jest": "26.6.3",
+    "fetch-headers": "2.0.0",
+    "jest": "27.0.3",
     "prettier": "2.3.0"
   },
   "dependencies": {

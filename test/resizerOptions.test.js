@@ -1,4 +1,5 @@
 const ResizerOptions = require('../src/resizerOptions')
+const Headers = require('fetch-headers');
 
 it('Handles correctly default options', () => {
     let myHeaders = new Headers();
