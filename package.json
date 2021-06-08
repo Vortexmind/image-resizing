@@ -21,7 +21,7 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-markdown": "2.2.0",
     "eslint-plugin-prettier": "3.4.0",
-    "eslint-plugin-yaml": "0.4.3",
+    "eslint-plugin-yaml": "0.5.0",
     "fetch-headers": "2.0.0",
     "jest": "27.0.4",
     "prettier": "2.3.1"
