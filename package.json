@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "kind-of": "6.0.3",
-    "npm": "7.16.0",
+    "npm": "7.17.0",
     "toucan-js": "2.4.1"
   }
 }
