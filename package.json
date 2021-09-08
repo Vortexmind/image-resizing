@@ -23,7 +23,7 @@
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-yaml": "0.5.0",
     "fetch-headers": "2.0.0",
-    "jest": "27.1.0",
+    "jest": "27.1.1",
     "prettier": "2.3.2"
   },
   "dependencies": {
