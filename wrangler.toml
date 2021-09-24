@@ -5,3 +5,4 @@ workers_dev = true
 route = ""
 zone_id = ""
 vars = { USE_SENTRY = false , CUSTOM_HEADER = "" }
+compatibility_date = "2021-09-24"
