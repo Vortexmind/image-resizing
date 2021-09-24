@@ -1,5 +1,6 @@
 /*global SENTRY_DSN*/
 /*global USE_SENTRY*/
+/*global CUSTOM_HEADER*/
 
 import ImageComponents from './src/imageComponents'
 import Toucan from 'toucan-js'
@@ -46,6 +47,11 @@ async function handleRequest(request, sentry) {
       headers: request.headers,
     })
 
+    if (CUSTOM_HEADER !== '') {
+      const headerComponents = CUSTOM_HEADER.split(',')
+      imageRequest.headers.append(headerComponents[0],headerComponents[1])
+    }
+  
     const response = await fetch(imageRequest, imageResizerOptions.getOptions())
     if (response.ok) {
       return response
