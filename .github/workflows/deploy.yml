@@ -21,3 +21,4 @@ jobs:
         env:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          CUSTOM_HEADER: ${{ secrets.CUSTOM_HEADER }}
