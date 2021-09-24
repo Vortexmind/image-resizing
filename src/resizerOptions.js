@@ -21,6 +21,8 @@ class ResizerOptions {
 
     if (acceptHeader.includes('image/webp')) {
       this.options.cf.image.format = 'webp'
+    } else if (acceptHeader.includes('image/avif')) {
+      this.options.cf.image.format = 'avif'
     } else {
       this.options.cf.image.format = 'auto'
     }
