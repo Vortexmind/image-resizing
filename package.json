@@ -24,7 +24,8 @@
     "eslint-plugin-yaml": "0.5.0",
     "fetch-headers": "2.0.0",
     "jest": "27.2.1",
-    "prettier": "2.4.1"
+    "prettier": "2.4.1",
+    "ansi-regex": "5.0.1"
   },
   "dependencies": {
     "kind-of": "6.0.3",
