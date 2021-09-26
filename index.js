@@ -1,6 +1,7 @@
 /*global SENTRY_DSN*/
 /*global USE_SENTRY*/
 /*global CUSTOM_HEADER*/
+/*global ALLOWED_ORIGINS*/
 
 import ImageComponents from './src/imageComponents'
 import Toucan from 'toucan-js'
@@ -32,7 +33,8 @@ async function handleRequest(request, sentry) {
     if (/image-resizing/.test(request.headers.get('via'))) {
       return fetch(request)
     }
-    const imgComponents = new ImageComponents(request.url)
+    /* ALLOWED_ORIGINS is a comma-separated string of hostnames */
+    const imgComponents = new ImageComponents(request.url, ALLOWED_ORIGINS.split(','))
 
     // Do not attempt to resize svg
     if (imgComponents.getExtension === '.svg') {

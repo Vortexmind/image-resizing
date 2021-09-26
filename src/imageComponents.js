@@ -2,10 +2,13 @@ var kindOf = require('kind-of')
 var path = require('path')
 
 class ImageComponents {
-  constructor(url) {
+  constructor(url, allowedOrigins) {
     const sizeMatch = new RegExp(/(.+)\/size\/w(\d+)(\/.+)/)
+    const absoluteUrlMatch = new RegExp('^(?:[a-z]+:)?//', 'i');
     this.inputUrl = url
+    this.isAbsolute = url.match(absoluteUrlMatch)
     this.parts = url.match(sizeMatch)
+    this.allowedOrigins = allowedOrigins
   }
 
   getSize() {
@@ -30,6 +33,17 @@ class ImageComponents {
 
   getExtension() {
     return path.extname(this.inputUrl)
+  }
+
+  getHostname() {
+    if (this.isAbsolute) return new URL(this.inputUrl).hostname
+    return ''
+  }
+
+  isOriginAllowed(){
+    if (!this.isAbsolute) return true;
+    if(this.allowedOrigins.includes(this.getHostname())) return true
+    return false
   }
 }
 
