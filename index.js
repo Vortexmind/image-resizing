@@ -36,7 +36,7 @@ async function handleRequest(request, sentry) {
   try {
 
     /* ALLOWED_ORIGINS is a comma-separated string of hostnames */
-    const imgComponents = new ImageComponents(request, ALLOWED_ORIGINS.split(','))
+    const imgComponents = new ImageComponents(request, ALLOWED_ORIGINS.split(','),CUSTOM_HEADER)
 
     if (!imgComponents.isResizeAllowed()){
       return fetch(request)
@@ -50,9 +50,8 @@ async function handleRequest(request, sentry) {
       headers: request.headers,
     })
 
-    if (CUSTOM_HEADER !== '') {
-      const headerComponents = CUSTOM_HEADER.split(',')
-      imageRequest.headers.append(headerComponents[0],headerComponents[1])
+   if (imgComponents.hasCustomHeader()) {
+      imageRequest.headers.append(imgComponents.getCustomHeaderName(),imgComponents.getCustomHeaderValue())
     }
   
     const response = await fetch(imageRequest, imageResizerOptions.getOptions())

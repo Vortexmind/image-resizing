@@ -2,13 +2,14 @@ var kindOf = require('kind-of')
 var path = require('path')
 
 class ImageComponents {
-  constructor(request, allowedOrigins) {
+  constructor(request, allowedOrigins,customHeader) {
     const sizeMatch = new RegExp(/(.+)\/size\/w(\d+)(\/.+)/)
     const absoluteUrlMatch = new RegExp('^(?:[a-z]+:)?//', 'i');
     this.request = request
     this.isAbsolute = request.url.match(absoluteUrlMatch)
     this.parts = request.url.match(sizeMatch)
     this.allowedOrigins = allowedOrigins
+    this.customHeader = customHeader
   }
 
   getSize() {
@@ -53,6 +54,27 @@ class ImageComponents {
     }
     return true
   }
+
+  hasCustomHeader() {
+    if (typeof this.customHeader === 'string' && this.customHeader !== '' && this.customHeader.match(/[\w-]+,[\w]*/)) return true
+    return false
+  }
+
+  getCustomHeaderName() {
+    if(this.hasCustomHeader()){
+      const headerComponents = this.customHeader.split(',')
+      return headerComponents[0]
+    } else return ''
+
+  }
+  
+  getCustomHeaderValue() {
+    if(this.hasCustomHeader()){
+      const headerComponents = this.customHeader.split(',')
+      return headerComponents[1]
+    } else return ''
+  }
+
 }
 
 module.exports = ImageComponents
