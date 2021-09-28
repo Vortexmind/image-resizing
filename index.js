@@ -15,7 +15,12 @@ addEventListener('fetch', (event) => {
       event,
     })
   }
-  event.respondWith(handleRequest(event.request, sentry))
+  /* Get the origin image if the request is from the resizer worker itself */
+  if (/image-resizing/.test(event.request.headers.get('via'))) {
+    event.respondWith(fetch(event.request))
+  } else { 
+    event.respondWith(handleRequest(event.request, sentry))
+  }
 })
 
 function sentryWrapper(isException, sentry, payload) {
@@ -29,15 +34,11 @@ function sentryWrapper(isException, sentry, payload) {
 
 async function handleRequest(request, sentry) {
   try {
-    /* Get the origin image if the request is from the resizer worker itself */
-    if (/image-resizing/.test(request.headers.get('via'))) {
-      return fetch(request)
-    }
-    /* ALLOWED_ORIGINS is a comma-separated string of hostnames */
-    const imgComponents = new ImageComponents(request.url, ALLOWED_ORIGINS.split(','))
 
-    // Do not attempt to resize svg
-    if (imgComponents.getExtension === '.svg') {
+    /* ALLOWED_ORIGINS is a comma-separated string of hostnames */
+    const imgComponents = new ImageComponents(request, ALLOWED_ORIGINS.split(','))
+
+    if (!imgComponents.isResizeAllowed()){
       return fetch(request)
     }
 
