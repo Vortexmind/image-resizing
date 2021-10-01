@@ -49,7 +49,7 @@ class ImageComponents {
 
   isResizeAllowed(){
     // Do not attempt to resize svg
-    if (this.getExtension() === '.svg') {
+    if (this.getExtension() === '.svg' || this.getExtension() === '.gif') {
       return false
     }
     return true

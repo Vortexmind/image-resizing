@@ -7,7 +7,8 @@ class ResizerOptions {
           fit: 'scale-down',
           metadata: 'copyright',
           sharpen: 1.0,
-          format: 'auto'
+          format: 'auto',
+          width: 1000
         },
       },
     }
