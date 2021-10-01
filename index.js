@@ -4,8 +4,8 @@
 /*global ALLOWED_ORIGINS*/
 
 import ImageComponents from './src/imageComponents'
-import Toucan from 'toucan-js'
 import ResizerOptions from './src/resizerOptions'
+import Toucan from 'toucan-js'
 
 addEventListener('fetch', (event) => {
   let sentry = {}
@@ -44,7 +44,8 @@ async function handleRequest(request, sentry) {
 
     const imageResizerOptions = new ResizerOptions(
       request.headers,
-      imgComponents.getSize()
+      imgComponents.getSize(),
+      imgComponents.getExtension()
     )
     const imageRequest = new Request(imgComponents.getUnsizedUrl(), {
       headers: request.headers,

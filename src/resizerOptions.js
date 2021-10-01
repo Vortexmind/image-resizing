@@ -1,5 +1,5 @@
 class ResizerOptions {
-  constructor(httpheaders, imgsize) {
+  constructor(httpheaders, imgsize, extension) {
     this.options = {
       cf: {
         image: {
@@ -7,11 +7,13 @@ class ResizerOptions {
           fit: 'scale-down',
           metadata: 'copyright',
           sharpen: 1.0,
+          format: 'auto'
         },
       },
     }
     this.headers = httpheaders
     this.size = imgsize
+    this.extension = extension
   }
 
   getOptions() {
@@ -24,6 +26,10 @@ class ResizerOptions {
     } else if (acceptHeader.includes('image/webp')) {
       this.options.cf.image.format = 'webp'
     } else {
+      this.options.cf.image.format = 'auto'
+    }
+
+    if (this.extension === '.gif') {
       this.options.cf.image.format = 'auto'
     }
 

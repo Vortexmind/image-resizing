@@ -7,7 +7,7 @@ it('Handles correctly default options', () => {
     myHeaders.append('Accept', 'image/webp, */*');
     myHeaders.append('Accept-Encoding','gzip, deflate, br')
     myHeaders.append('Connection','keep-alive')
-    const resizerOptions = new ResizerOptions(myHeaders,800)
+    const resizerOptions = new ResizerOptions(myHeaders,800,'.jpg')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
     expect(resizerOptions.getOptions().cf.image.fit).toBe('scale-down')
@@ -22,7 +22,7 @@ it('Handles correctly default options, absence of Accept header and negative img
     myHeaders.append('Content-Type', 'text/plain');
     myHeaders.append('Accept-Encoding','gzip, deflate, br')
     myHeaders.append('Connection','keep-alive')
-    const resizerOptions = new ResizerOptions(myHeaders,-1)
+    const resizerOptions = new ResizerOptions(myHeaders,-1,'.jpg')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
     expect(resizerOptions.getOptions().cf.image.fit).toBe('scale-down')
@@ -38,7 +38,7 @@ it('Caps the size at 1000px', () => {
     myHeaders.append('Accept', 'image/webp, */*');
     myHeaders.append('Accept-Encoding','gzip, deflate, br')
     myHeaders.append('Connection','keep-alive')
-    const resizerOptions = new ResizerOptions(myHeaders,1800)
+    const resizerOptions = new ResizerOptions(myHeaders,1800,'.jpg')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
     expect(resizerOptions.getOptions().cf.image.fit).toBe('scale-down')
@@ -53,7 +53,7 @@ it('Selects webp format if available', () => {
     myHeaders.append('Accept', 'image/webp, */*');
     myHeaders.append('Accept-Encoding','gzip, deflate, br')
     myHeaders.append('Connection','keep-alive')
-    const resizerOptions = new ResizerOptions(myHeaders,1800)
+    const resizerOptions = new ResizerOptions(myHeaders,1800,'.jpg')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
     expect(resizerOptions.getOptions().cf.image.fit).toBe('scale-down')
@@ -69,7 +69,7 @@ it('Selects avif format if available', () => {
     myHeaders.append('Accept', 'image/avif, */*');
     myHeaders.append('Accept-Encoding','gzip, deflate, br')
     myHeaders.append('Connection','keep-alive')
-    const resizerOptions = new ResizerOptions(myHeaders,1800)
+    const resizerOptions = new ResizerOptions(myHeaders,1800,'.jpg')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
     expect(resizerOptions.getOptions().cf.image.fit).toBe('scale-down')
@@ -85,7 +85,7 @@ it('Selects avif over webp if both are  available', () => {
     myHeaders.append('Accept', 'image/avif,image/webp, */*');
     myHeaders.append('Accept-Encoding','gzip, deflate, br')
     myHeaders.append('Connection','keep-alive')
-    const resizerOptions = new ResizerOptions(myHeaders,1800)
+    const resizerOptions = new ResizerOptions(myHeaders,1800,'.jpg')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
     expect(resizerOptions.getOptions().cf.image.fit).toBe('scale-down')
@@ -101,7 +101,23 @@ it('Selects auto format if none other available', () => {
     myHeaders.append('Accept', 'image/foo, image/bar, */*');
     myHeaders.append('Accept-Encoding','gzip, deflate, br')
     myHeaders.append('Connection','keep-alive')
-    const resizerOptions = new ResizerOptions(myHeaders,200)
+    const resizerOptions = new ResizerOptions(myHeaders,200,'.jpg')
+
+    expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
+    expect(resizerOptions.getOptions().cf.image.fit).toBe('scale-down')
+    expect(resizerOptions.getOptions().cf.image.metadata).toBe('copyright')
+    expect(resizerOptions.getOptions().cf.image.sharpen).toBe(1.0)
+    expect(resizerOptions.getOptions().cf.image.width).toBe(200)
+    expect(resizerOptions.getOptions().cf.image.format).toBe('auto')
+});
+
+it('Keeps gif format preserved (using auto format) ', () => {
+    let myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'text/plain');
+    myHeaders.append('Accept', 'image/avif,image/webp,image/gif, */*');
+    myHeaders.append('Accept-Encoding','gzip, deflate, br')
+    myHeaders.append('Connection','keep-alive')
+    const resizerOptions = new ResizerOptions(myHeaders,200,'.gif')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
     expect(resizerOptions.getOptions().cf.image.fit).toBe('scale-down')
