@@ -52,7 +52,7 @@ async function handleRequest(request, sentry) {
     })
 
    if (imgComponents.hasCustomHeader()) {
-      imageRequest.headers.append(imgComponents.getCustomHeaderName(),imgComponents.getCustomHeaderValue())
+      imageRequest.headers.append(imgComponents.getCustomHeader('name'),imgComponents.getCustomHeader('value'))
     }
   
     const response = await fetch(imageRequest, imageResizerOptions.getOptions())

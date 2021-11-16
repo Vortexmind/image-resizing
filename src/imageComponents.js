@@ -60,19 +60,16 @@ class ImageComponents {
     return false
   }
 
-  getCustomHeaderName() {
+  getCustomHeader(val) {
     if(this.hasCustomHeader()){
       const headerComponents = this.customHeader.split(',')
-      return headerComponents[0]
-    } else return ''
-
-  }
-  
-  getCustomHeaderValue() {
-    if(this.hasCustomHeader()){
-      const headerComponents = this.customHeader.split(',')
-      return headerComponents[1]
-    } else return ''
+      if ( val === 'name') {
+        return headerComponents[0]
+      } else if ( val === 'value') {
+        return headerComponents[1]
+      }
+    }
+    return ''
   }
 
 }

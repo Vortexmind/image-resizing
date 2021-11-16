@@ -93,8 +93,8 @@ it('Handles correctly configured custom header', () => {
     }
     const image = new ImageComponents(req,["example.com","foo.org","bar.it"],"my-test-header,my-test-header-value")
     expect(image.hasCustomHeader()).toBe(true)
-    expect(image.getCustomHeaderName()).toBe('my-test-header')
-    expect(image.getCustomHeaderValue()).toBe('my-test-header-value')
+    expect(image.getCustomHeader('name')).toBe('my-test-header')
+    expect(image.getCustomHeader('value')).toBe('my-test-header-value')
 });
 
 it('Handles incorrectly configured custom header', () => {
@@ -103,6 +103,6 @@ it('Handles incorrectly configured custom header', () => {
     }
     const image = new ImageComponents(req,["example.com","foo.org","bar.it"],"342ge")
     expect(image.hasCustomHeader()).toBe(false)
-    expect(image.getCustomHeaderName()).toBe('')
-    expect(image.getCustomHeaderValue()).toBe('')
+    expect(image.getCustomHeader('name')).toBe('')
+    expect(image.getCustomHeader('value')).toBe('')
 });
