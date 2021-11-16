@@ -95,6 +95,8 @@ it('Handles correctly configured custom header', () => {
     expect(image.hasCustomHeader()).toBe(true)
     expect(image.getCustomHeader('name')).toBe('my-test-header')
     expect(image.getCustomHeader('value')).toBe('my-test-header-value')
+    expect(image.getCustomHeader('')).toBe('')
+    expect(image.getCustomHeader('randomness')).toBe('')
 });
 
 it('Handles incorrectly configured custom header', () => {
@@ -105,4 +107,6 @@ it('Handles incorrectly configured custom header', () => {
     expect(image.hasCustomHeader()).toBe(false)
     expect(image.getCustomHeader('name')).toBe('')
     expect(image.getCustomHeader('value')).toBe('')
+    expect(image.getCustomHeader('')).toBe('')
+    expect(image.getCustomHeader('randomness')).toBe('')
 });
