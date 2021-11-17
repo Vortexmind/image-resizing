@@ -22,7 +22,7 @@ class ResizerOptions {
     if (this.size > 0) this.options.cf.image.width = this.size
     if (this.size > 1000 || this.size < 0) this.options.cf.image.width = 1000
 
-    this.options.cf.image.format = getFormat(acceptHeader)
+    this.options.cf.image.format = this.getFormat(acceptHeader)
 
     if (this.extension === '.gif') {
       this.options.cf.image.format = 'auto'
