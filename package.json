@@ -23,7 +23,7 @@
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-yaml": "0.5.0",
     "fetch-headers": "2.0.0",
-    "jest": "27.4.3",
+    "jest": "27.4.4",
     "prettier": "2.5.1",
     "ansi-regex": "6.0.1"
   },
