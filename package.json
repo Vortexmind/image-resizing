@@ -19,7 +19,7 @@
   "devDependencies": {
     "eslint": "8.19.0",
     "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-markdown": "2.2.1",
+    "eslint-plugin-markdown": "3.0.0",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-yaml": "0.5.0",
     "fetch-headers": "3.0.1",
