@@ -2,4 +2,5 @@ name = "image-resizing"
 workers_dev = true
 zone_id = ""
 vars = { USE_SENTRY = false }
-compatibility_date = "2021-09-24"
+compatibility_date = "2022-07-12"
+main = "./index.js"
