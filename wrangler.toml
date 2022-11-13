@@ -4,3 +4,4 @@ node_compat = true
 vars = { USE_SENTRY = false }
 compatibility_date = "2022-07-12"
 main = "./index.js"
+type = "webpack"
