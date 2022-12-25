@@ -30,6 +30,6 @@
   "dependencies": {
     "kind-of": "6.0.3",
     "npm": "9.2.0",
-    "toucan-js": "3.0.0"
+    "toucan-js": "3.1.0"
   }
 }
