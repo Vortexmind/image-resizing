@@ -1,5 +1,5 @@
 name = "image-resizing"
-workers_dev = true
+workers_dev = false
 node_compat = true
 compatibility_date = "2022-07-12"
 main = "./index.js"
