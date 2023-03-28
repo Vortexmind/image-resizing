@@ -8,18 +8,21 @@ addEventListener('fetch', (event) => {
   /* Get the origin image if the request is from the resizer worker itself */
   if (/image-resizing/.test(event.request.headers.get('via'))) {
     event.respondWith(fetch(event.request))
-  } else { 
+  } else {
     event.respondWith(handleRequest(event.request))
   }
 })
 
 async function handleRequest(request) {
   try {
-
     /* ALLOWED_ORIGINS is a comma-separated string of hostnames */
-    const imgComponents = new ImageComponents(request, ALLOWED_ORIGINS.split(','),CUSTOM_HEADER)
+    const imgComponents = new ImageComponents(
+      request,
+      ALLOWED_ORIGINS.split(','),
+      CUSTOM_HEADER
+    )
 
-    if (!imgComponents.isResizeAllowed()){
+    if (!imgComponents.isResizeAllowed()) {
       return fetch(request)
     }
 
@@ -32,8 +35,11 @@ async function handleRequest(request) {
       headers: request.headers,
     })
 
-   if (imgComponents.hasCustomHeader()) {
-      imageRequest.headers.append(imgComponents.getCustomHeader('name'),imgComponents.getCustomHeader('value'))
+    if (imgComponents.hasCustomHeader()) {
+      imageRequest.headers.append(
+        imgComponents.getCustomHeader('name'),
+        imgComponents.getCustomHeader('value')
+      )
     }
 
     const response = await fetch(imageRequest, imageResizerOptions.getOptions())
