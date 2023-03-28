@@ -1,4 +1,3 @@
-var kindOf = require('kind-of')
 var path = require('path')
 
 class ImageComponents {
@@ -13,7 +12,7 @@ class ImageComponents {
   }
 
   getSize() {
-    if (kindOf(this.parts) === 'array' && this.parts.length == 4) {
+    if (Array.isArray(this.parts) && this.parts.length == 4) {
       return parseInt(this.parts[2])
     } else {
       return -1
@@ -21,7 +20,7 @@ class ImageComponents {
   }
 
   getUnsizedUrl() {
-    if (kindOf(this.parts) === 'array' && this.parts.length == 4) {
+    if (Array.isArray(this.parts) && this.parts.length == 4) {
       return this.parts[1].concat(this.parts[3])
     } else {
       return this.request.url
