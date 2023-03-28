@@ -17,11 +17,9 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           secrets: |
-            SENTRY_DSN
             CUSTOM_HEADER
             ALLOWED_ORIGINS
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           CUSTOM_HEADER: ${{ secrets.CUSTOM_HEADER }}
           ALLOWED_ORIGINS: ${{ secrets.ALLOWED_ORIGINS }}

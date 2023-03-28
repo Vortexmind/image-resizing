@@ -8,7 +8,7 @@ class ResizerOptions {
           metadata: 'copyright',
           sharpen: 1.0,
           format: 'auto',
-          width: 1000
+          width: 1000,
         },
       },
     }
@@ -37,7 +37,7 @@ class ResizerOptions {
     } else if (acceptHeader.includes('image/webp')) {
       return 'webp'
     }
-      return 'auto'
+    return 'auto'
   }
 }
 
