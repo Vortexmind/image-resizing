@@ -17,6 +17,7 @@
   "author": "Paolo Tagliaferri <me@paolotagliaferri.com>",
   "license": "MIT",
   "devDependencies": {
+    "ansi-regex": "6.0.1",
     "eslint": "8.36.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-markdown": "3.0.0",
@@ -24,12 +25,10 @@
     "eslint-plugin-yaml": "0.5.0",
     "fetch-headers": "3.0.1",
     "jest": "29.5.0",
-    "prettier": "2.8.7",
-    "ansi-regex": "6.0.1"
+    "prettier": "2.8.7"
   },
   "dependencies": {
     "kind-of": "6.0.3",
-    "npm": "9.6.2",
-    "toucan-js": "3.1.0"
+    "npm": "9.6.2"
   }
 }
