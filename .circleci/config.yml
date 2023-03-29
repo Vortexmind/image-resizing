@@ -3,7 +3,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0.2
-  codecov: codecov/codecov@1.0.2
+  codecov: codecov/codecov@3
 
 jobs:
   build_and_test:
@@ -15,7 +15,7 @@ jobs:
       - run:
           command: npm run test
           name: Run tests
-      - codecov/upload:
+      - codecov/upload
 
 workflows:
   test_my_app:
