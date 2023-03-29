@@ -18,7 +18,7 @@
   "license": "MIT",
   "devDependencies": {
     "ansi-regex": "6.0.1",
-    "eslint": "8.36.0",
+    "eslint": "8.37.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-markdown": "3.0.0",
     "eslint-plugin-prettier": "4.2.1",
