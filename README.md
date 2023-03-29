@@ -2,6 +2,7 @@
 
 ## Image resizing for Ghost blog image content using Cloudflare
 
+[![Vortexmind](https://circleci.com/gh/Vortexmind/image-resizing.svg?style=svg)](https://circleci.com/gh/Vortexmind/image-resizing)
 [![Known Vulnerabilities](https://snyk.io/test/github/Vortexmind/image-resizing/badge.svg)](https://snyk.io/test/github/Vortexmind/image-resizing) [![Maintainability](https://api.codeclimate.com/v1/badges/67d113999682b54bc46e/maintainability)](https://codeclimate.com/github/Vortexmind/image-resizing/maintainability) [![codecov](https://codecov.io/gh/Vortexmind/image-resizing/branch/master/graph/badge.svg)](https://codecov.io/gh/Vortexmind/image-resizing)
 
 A [Cloudflare Worker](https://developers.cloudflare.com/workers/) that uses Cloudflare's [Image Resizing API](https://developers.cloudflare.com/images/worker) to automatically compress any image served from the `content/images/` path on a [Ghost blog](https://github.com/TryGhost/Ghost). 
