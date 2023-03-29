@@ -16,6 +16,6 @@ jobs:
           name: Run tests
 
 workflows:
-  - build_and_test_wf:
-      jobs:
-        - build_and_test
+  test_my_app:
+    jobs:
+      - build_and_test
