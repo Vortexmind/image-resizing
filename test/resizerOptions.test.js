@@ -1,12 +1,10 @@
 const ResizerOptions = require('../src/resizerOptions')
-const Headers = require('fetch-headers');
 
 it('Handles correctly default options', () => {
-    let myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'text/plain');
-    myHeaders.append('Accept', 'image/webp, */*');
-    myHeaders.append('Accept-Encoding','gzip, deflate, br')
-    myHeaders.append('Connection','keep-alive')
+    let myHeaders = {'Content-Type': 'text/plain', 'Accept': 'image/webp, */*', 'Accept-Encoding': 'gzip, deflate, br','Connection':'keep-alive'}
+    myHeaders.get = function(val) {
+        return this[val]
+    }
     const resizerOptions = new ResizerOptions(myHeaders,800,'.jpg')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
@@ -18,10 +16,10 @@ it('Handles correctly default options', () => {
 });
 
 it('Handles correctly default options, absence of Accept header and negative img size', () => {
-    let myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'text/plain');
-    myHeaders.append('Accept-Encoding','gzip, deflate, br')
-    myHeaders.append('Connection','keep-alive')
+    let myHeaders = {'Content-Type': 'text/plain', 'Accept-Encoding': 'gzip, deflate, br','Connection':'keep-alive'}
+    myHeaders.get = function(val) {
+        return this[val]
+    }
     const resizerOptions = new ResizerOptions(myHeaders,-1,'.jpg')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
@@ -33,11 +31,10 @@ it('Handles correctly default options, absence of Accept header and negative img
 });
 
 it('Caps the size at 1000px', () => {
-    let myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'text/plain');
-    myHeaders.append('Accept', 'image/webp, */*');
-    myHeaders.append('Accept-Encoding','gzip, deflate, br')
-    myHeaders.append('Connection','keep-alive')
+    let myHeaders = {'Content-Type': 'text/plain', 'Accept': 'image/webp, */*', 'Accept-Encoding': 'gzip, deflate, br','Connection':'keep-alive'}
+    myHeaders.get = function(val) {
+        return this[val]
+    }
     const resizerOptions = new ResizerOptions(myHeaders,1800,'.jpg')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
@@ -48,11 +45,10 @@ it('Caps the size at 1000px', () => {
 });
 
 it('Selects webp format if available', () => {
-    let myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'text/plain');
-    myHeaders.append('Accept', 'image/webp, */*');
-    myHeaders.append('Accept-Encoding','gzip, deflate, br')
-    myHeaders.append('Connection','keep-alive')
+    let myHeaders = {'Content-Type': 'text/plain', 'Accept': 'image/webp, */*', 'Accept-Encoding': 'gzip, deflate, br','Connection':'keep-alive'}
+    myHeaders.get = function(val) {
+        return this[val]
+    }
     const resizerOptions = new ResizerOptions(myHeaders,1800,'.jpg')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
@@ -64,11 +60,10 @@ it('Selects webp format if available', () => {
 });
 
 it('Selects avif format if available', () => {
-    let myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'text/plain');
-    myHeaders.append('Accept', 'image/avif, */*');
-    myHeaders.append('Accept-Encoding','gzip, deflate, br')
-    myHeaders.append('Connection','keep-alive')
+    let myHeaders = {'Content-Type': 'text/plain', 'Accept': 'image/avif, */*', 'Accept-Encoding': 'gzip, deflate, br','Connection':'keep-alive'}
+    myHeaders.get = function(val) {
+        return this[val]
+    }
     const resizerOptions = new ResizerOptions(myHeaders,1800,'.jpg')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
@@ -80,11 +75,10 @@ it('Selects avif format if available', () => {
 });
 
 it('Selects avif over webp if both are  available', () => {
-    let myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'text/plain');
-    myHeaders.append('Accept', 'image/avif,image/webp, */*');
-    myHeaders.append('Accept-Encoding','gzip, deflate, br')
-    myHeaders.append('Connection','keep-alive')
+    let myHeaders = {'Content-Type': 'text/plain', 'Accept': 'image/avif,image/webp, */*', 'Accept-Encoding': 'gzip, deflate, br','Connection':'keep-alive'}
+    myHeaders.get = function(val) {
+        return this[val]
+    }
     const resizerOptions = new ResizerOptions(myHeaders,1800,'.jpg')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
@@ -96,11 +90,10 @@ it('Selects avif over webp if both are  available', () => {
 });
 
 it('Selects auto format if none other available', () => {
-    let myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'text/plain');
-    myHeaders.append('Accept', 'image/foo, image/bar, */*');
-    myHeaders.append('Accept-Encoding','gzip, deflate, br')
-    myHeaders.append('Connection','keep-alive')
+    let myHeaders = {'Content-Type': 'text/plain', 'Accept': 'image/foo,image/bar, */*', 'Accept-Encoding': 'gzip, deflate, br','Connection':'keep-alive'}
+    myHeaders.get = function(val) {
+        return this[val]
+    }
     const resizerOptions = new ResizerOptions(myHeaders,200,'.jpg')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')
@@ -112,11 +105,10 @@ it('Selects auto format if none other available', () => {
 });
 
 it('Keeps gif format preserved (using auto format) ', () => {
-    let myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'text/plain');
-    myHeaders.append('Accept', 'image/avif,image/webp,image/gif, */*');
-    myHeaders.append('Accept-Encoding','gzip, deflate, br')
-    myHeaders.append('Connection','keep-alive')
+    let myHeaders = {'Content-Type': 'text/plain', 'Accept': 'image/avif,image/webp,image/gif, */*', 'Accept-Encoding': 'gzip, deflate, br','Connection':'keep-alive'}
+    myHeaders.get = function(val) {
+        return this[val]
+    }
     const resizerOptions = new ResizerOptions(myHeaders,200,'.gif')
 
     expect(resizerOptions.getOptions().cf.image.quality).toBe('85')

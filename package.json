@@ -5,14 +5,8 @@
   "description": "Image resizing via Cloudflare Worker resizing API",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest  --coverage",
     "lint": "eslint --fix . && echo 'Lint complete.'"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "index.js",
-      "src/*.js"
-    ]
   },
   "author": "Paolo Tagliaferri <me@paolotagliaferri.com>",
   "license": "MIT",
@@ -23,7 +17,6 @@
     "eslint-plugin-markdown": "3.0.0",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-yaml": "0.5.0",
-    "fetch-headers": "3.0.1",
     "jest": "29.5.0",
     "prettier": "2.8.7"
   },
