@@ -16,7 +16,7 @@ jobs:
           command: npm run test
           name: Run tests
       - codecov/upload:
-          file: {{ coverage_report_filepath }}
+          file: coverage
 
 workflows:
   test_my_app:
