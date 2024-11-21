@@ -26,6 +26,7 @@ This ensures that image requests under that path are intercepted by the worker a
 
 ## Features
 
+
 - The worker resizes images that have a `/size/w<NUMBER>/` in the URL. For all such URLs, the worker will pull the original, unresized image and use it as a base for resizing.
 - The image is resized to the width provided in the `w<NUMBER>` path element. If the image does not have a size, or as a size greater than `1000` , then `1000` is used.
 - If an error occurs, the original image is loaded from the origin server.
