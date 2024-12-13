@@ -1,41 +1,15 @@
 {
-    "extends": [
-        "config:base"
-    ],
-    "lockFileMaintenance": {
-        "enabled": true,
-        "automerge": true
-    },
-    "packageRules": [
-        {
-            "updateTypes": [
-                "minor",
-                "patch",
-                "pin",
-                "digest"
-            ],
-            "depTypeList": [
-                "devDependencies"
-            ],
-            "automerge": true
-        },
-        {
-            "matchDepTypes": [
-                "devDependencies"
-            ],
-            "matchPackagePatterns": [
-                "lint",
-                "prettier"
-            ],
-            "automerge": true
-        },
-        {
-            "matchUpdateTypes": [
-                "minor",
-                "patch"
-            ],
-            "matchCurrentVersion": "!/^0/",
-            "automerge": true
-        }
-    ]
+  "extends": [
+    "config:base"
+  ],
+  "packageRules": [{
+    "updateTypes": ["pin", "digest"],
+    "depTypeList": ["devDependencies"],
+    "automerge": true
+  },
+  {
+   "matchUpdateTypes": ["minor", "patch"],
+   "automerge": true
+  }],
+  "automergeType": "pr"
 }
