@@ -13,7 +13,7 @@
   "devDependencies": {
     "ansi-regex": "6.1.0",
     "eslint": "9.26.0",
-    "eslint-config-prettier": "9.1.0",
+    "eslint-config-prettier": "10.1.5",
     "eslint-plugin-markdown": "5.1.0",
     "eslint-plugin-prettier": "5.4.0",
     "eslint-plugin-yaml": "1.1.2",
