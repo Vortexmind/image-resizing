@@ -21,6 +21,6 @@
     "prettier": "3.5.3"
   },
   "dependencies": {
-    "npm": "11.4.0"
+    "npm": "11.4.1"
   }
 }
