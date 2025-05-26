@@ -13,6 +13,8 @@ jobs:
       - run:
           name: Upgrade npm
           command: npm install -g npm@11.4.1
+      - run: rm -rf node_modules package-lock.json
+      - run: npm install
       - run:
           command: npm run test
           name: Run tests
