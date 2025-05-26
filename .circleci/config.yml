@@ -1,4 +1,4 @@
-
+a
 version: 2.1
 
 orbs:
@@ -11,8 +11,9 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
+      - run:
+          name: Upgrade npm
+          command: npm install -g npm@11.4.1
       - run:
           command: npm run test
           name: Run tests
