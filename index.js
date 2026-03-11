@@ -1,7 +1,7 @@
 /*global CUSTOM_HEADER*/
 /*global ALLOWED_ORIGINS*/
 
-/**
+w /**
  * REQUIRED ENVIRONMENT VARIABLES (configure in wrangler.toml [vars] or Worker dashboard):
  *
  *   ALLOWED_ORIGINS  - Comma-separated list of allowed hostnames, e.g. "www.example.com,cdn.example.com"
