@@ -1,6 +1,20 @@
 name = "image-resizing"
 workers_dev = false
-node_compat = true
 compatibility_date = "2022-07-12"
 main = "./index.js"
-# type = "webpack"
+
+# ---------------------------------------------------------------------------
+# Environment variables
+# Configure these before deploying, either here or via the Workers dashboard.
+# ---------------------------------------------------------------------------
+[vars]
+# Comma-separated list of hostnames permitted as image origins.
+# Requests from any other absolute URL origin will be passed through unresized.
+# Example: "www.yourblog.com,cdn.yourblog.com"
+# Leave empty ("") to allow all origins (not recommended for production).
+ALLOWED_ORIGINS = ""
+
+# Optional custom header to append to resizer fetch requests.
+# Format: "header-name,header-value" — both parts must be non-empty to take effect.
+# Example: "x-resize-token,mysecrettoken"
+CUSTOM_HEADER = ""

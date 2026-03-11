@@ -1,5 +1,3 @@
-var path = require('path')
-
 class ImageComponents {
   constructor(request, allowedOrigins, customHeader) {
     const sizeMatch = new RegExp(/(.+)\/size\/w(\d+)(\/.+)/)
@@ -11,28 +9,43 @@ class ImageComponents {
     this.customHeader = customHeader
   }
 
+  /**
+   * Returns the parsed width from the URL, or null if not present.
+   */
   getSize() {
-    if (Array.isArray(this.parts) && this.parts.length == 4) {
+    if (Array.isArray(this.parts) && this.parts.length === 4) {
       return parseInt(this.parts[2])
-    } else {
-      return -1
     }
+    return null
   }
 
   getUnsizedUrl() {
-    if (Array.isArray(this.parts) && this.parts.length == 4) {
+    if (Array.isArray(this.parts) && this.parts.length === 4) {
       return this.parts[1].concat(this.parts[3])
-    } else {
-      return this.request.url
     }
+    return this.request.url
   }
 
   getInputUrl() {
     return this.request.url
   }
 
+  /**
+   * Extracts the file extension from the URL without relying on Node's path module.
+   * Uses the URL API for absolute URLs, and simple string parsing for relative ones.
+   */
   getExtension() {
-    return path.extname(this.request.url)
+    try {
+      const normalized = this.isAbsolute
+        ? this.request.url
+        : `https://placeholder.com/${this.request.url}`
+      const pathname = new URL(normalized).pathname
+      const lastDot = pathname.lastIndexOf('.')
+      if (lastDot === -1) return ''
+      return pathname.substring(lastDot)
+    } catch {
+      return ''
+    }
   }
 
   getHostname() {
@@ -47,33 +60,39 @@ class ImageComponents {
   }
 
   isResizeAllowed() {
-    // Do not attempt to resize svg
-    if (this.getExtension() === '.svg' || this.getExtension() === '.gif') {
+    const ext = this.getExtension()
+    if (ext === '.svg' || ext === '.gif') {
       return false
     }
     return true
   }
 
+  /**
+   * Returns true only if the custom header string is correctly formatted as
+   * "header-name,header-value" where both name and value are non-empty.
+   */
   hasCustomHeader() {
     if (
       typeof this.customHeader === 'string' &&
       this.customHeader !== '' &&
-      this.customHeader.match(/[\w-]+,[\w]*/)
+      this.customHeader.match(/^[\w-]+,\w+/)
     )
       return true
     return false
   }
 
-  getCustomHeader(val) {
+  /**
+   * Returns the custom header as { name, value } object, or null if not configured.
+   */
+  getCustomHeader() {
     if (this.hasCustomHeader()) {
-      const headerComponents = this.customHeader.split(',')
-      if (val === 'name') {
-        return headerComponents[0]
-      } else if (val === 'value') {
-        return headerComponents[1]
+      const separatorIndex = this.customHeader.indexOf(',')
+      return {
+        name: this.customHeader.substring(0, separatorIndex),
+        value: this.customHeader.substring(separatorIndex + 1),
       }
     }
-    return ''
+    return null
   }
 }
 
