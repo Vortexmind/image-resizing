@@ -11,7 +11,7 @@
   "author": "Paolo Tagliaferri <me@paolotagliaferri.com>",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "9.33.0",
+    "eslint": "9.39.4",
     "jest": "30.3.0",
     "prettier": "3.6.2"
   }
