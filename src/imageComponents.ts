@@ -1,5 +1,16 @@
+interface CustomHeader {
+  name: string
+  value: string
+}
+
 class ImageComponents {
-  constructor(request, allowedOrigins, customHeader) {
+  private request: Request
+  private isAbsolute: RegExpMatchArray | null
+  private parts: RegExpMatchArray | null
+  private allowedOrigins: string[]
+  private customHeader: string
+
+  constructor(request: Request, allowedOrigins: string[], customHeader: string) {
     const sizeMatch = new RegExp(/(.+)\/size\/w(\d+)(\/.+)/)
     const absoluteUrlMatch = new RegExp('^(?:[a-z]+:)?//', 'i')
     this.request = request
@@ -12,21 +23,21 @@ class ImageComponents {
   /**
    * Returns the parsed width from the URL, or null if not present.
    */
-  getSize() {
+  getSize(): number | null {
     if (Array.isArray(this.parts) && this.parts.length === 4) {
       return parseInt(this.parts[2])
     }
     return null
   }
 
-  getUnsizedUrl() {
+  getUnsizedUrl(): string {
     if (Array.isArray(this.parts) && this.parts.length === 4) {
       return this.parts[1].concat(this.parts[3])
     }
     return this.request.url
   }
 
-  getInputUrl() {
+  getInputUrl(): string {
     return this.request.url
   }
 
@@ -34,7 +45,7 @@ class ImageComponents {
    * Extracts the file extension from the URL without relying on Node's path module.
    * Uses the URL API for absolute URLs, and simple string parsing for relative ones.
    */
-  getExtension() {
+  getExtension(): string {
     try {
       const normalized = this.isAbsolute
         ? this.request.url
@@ -48,18 +59,18 @@ class ImageComponents {
     }
   }
 
-  getHostname() {
+  getHostname(): string {
     if (this.isAbsolute) return new URL(this.request.url).hostname
     return ''
   }
 
-  isOriginAllowed() {
+  isOriginAllowed(): boolean {
     if (!this.isAbsolute) return true
     if (this.allowedOrigins.includes(this.getHostname())) return true
     return false
   }
 
-  isResizeAllowed() {
+  isResizeAllowed(): boolean {
     const ext = this.getExtension()
     if (ext === '.svg' || ext === '.gif') {
       return false
@@ -71,7 +82,7 @@ class ImageComponents {
    * Returns true only if the custom header string is correctly formatted as
    * "header-name,header-value" where both name and value are non-empty.
    */
-  hasCustomHeader() {
+  hasCustomHeader(): boolean {
     if (
       typeof this.customHeader === 'string' &&
       this.customHeader !== '' &&
@@ -84,7 +95,7 @@ class ImageComponents {
   /**
    * Returns the custom header as { name, value } object, or null if not configured.
    */
-  getCustomHeader() {
+  getCustomHeader(): CustomHeader | null {
     if (this.hasCustomHeader()) {
       const separatorIndex = this.customHeader.indexOf(',')
       return {
@@ -96,4 +107,4 @@ class ImageComponents {
   }
 }
 
-module.exports = ImageComponents
+export default ImageComponents

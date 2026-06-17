@@ -1,4 +1,4 @@
-const ImageComponents = require('../src/imageComponents')
+import ImageComponents from '../src/imageComponents.ts'
 
 it('Manipulates correctly an absolute URL with size', () => {
   const req = {

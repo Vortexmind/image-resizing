@@ -1,18 +1,26 @@
 {
   "private": true,
+  "type": "module",
   "name": "image-resizing",
   "version": "1.0.0",
   "description": "Image resizing via Cloudflare Worker resizing API",
-  "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "lint": "eslint --fix . && echo 'Lint complete.'"
   },
   "author": "Paolo Tagliaferri <me@paolotagliaferri.com>",
   "license": "MIT",
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260617.1",
+    "@eslint/js": "^9.39.4",
+    "@types/jest": "^30.0.0",
     "eslint": "9.39.4",
+    "eslint-config-prettier": "^10.1.8",
     "jest": "30.4.2",
-    "prettier": "3.8.4"
+    "prettier": "3.8.4",
+    "ts-jest": "^29.4.11",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1",
+    "wrangler": "^4.101.0"
   }
 }

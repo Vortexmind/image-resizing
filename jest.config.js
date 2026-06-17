@@ -1,7 +1,16 @@
 /** @type {import('jest').Config} */
 const config = {
   verbose: true,
-  collectCoverageFrom: ['index.js', 'src/*.js'],
+  collectCoverageFrom: ['src/*.ts', 'src/*.js'],
+  transform: {
+    '^.+\\.ts$': ['ts-jest', {
+      useESM: true,
+    }],
+  },
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+  },
+  extensionsToTreatAsEsm: ['.ts'],
 }
 
-module.exports = config
+export default config
