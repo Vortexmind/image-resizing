@@ -53,7 +53,7 @@ class ImageComponents {
       const pathname = new URL(normalized).pathname
       const lastDot = pathname.lastIndexOf('.')
       if (lastDot === -1) return ''
-      return pathname.substring(lastDot)
+      return pathname.substring(lastDot).toLowerCase()
     } catch {
       return ''
     }
@@ -66,7 +66,8 @@ class ImageComponents {
 
   isOriginAllowed(): boolean {
     if (!this.isAbsolute) return true
-    if (this.allowedOrigins.includes(this.getHostname())) return true
+    if (this.allowedOrigins.length === 0) return true
+    if (this.allowedOrigins.some(allowed => allowed.toLowerCase() === this.getHostname().toLowerCase())) return true
     return false
   }
 

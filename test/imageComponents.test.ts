@@ -155,3 +155,75 @@ it('Rejects empty custom header string', () => {
   expect(image.hasCustomHeader()).toBe(false)
   expect(image.getCustomHeader()).toBeNull()
 })
+
+it('Returns null for non-numeric width in size path', () => {
+  const req = { url: 'content/images/size/wabc/2020/08/my-image.jpg' }
+  const image = new ImageComponents(req, [], '')
+  expect(image.getSize()).toBeNull()
+})
+
+it('Returns empty string for URL without extension', () => {
+  const req = { url: 'content/images/2020/08/no-extension' }
+  const image = new ImageComponents(req, [], '')
+  expect(image.getExtension()).toBe('')
+})
+
+it('Handles double extension (.tar.gz) by returning last extension', () => {
+  const req = { url: 'content/images/2020/08/archive.tar.gz' }
+  const image = new ImageComponents(req, [], '')
+  expect(image.getExtension()).toBe('.gz')
+})
+
+it('Handles URL with query string and fragment', () => {
+  const req = { url: 'content/images/2020/08/photo.jpg?w=300#anchor' }
+  const image = new ImageComponents(req, [], '')
+  expect(image.getExtension()).toBe('.jpg')
+  expect(image.getUnsizedUrl()).toBe('content/images/2020/08/photo.jpg?w=300#anchor')
+})
+
+it('Handles URL-encoded path characters', () => {
+  const req = { url: 'content/images/size/w300/2020/08/photo%20image.jpg' }
+  const image = new ImageComponents(req, [], '')
+  expect(image.getExtension()).toBe('.jpg')
+  expect(image.getSize()).toBe(300)
+  expect(image.getUnsizedUrl()).toBe('content/images/2020/08/photo%20image.jpg')
+})
+
+it('Extracts hostname correctly from URL with port', () => {
+  const req = { url: 'https://example.com:8080/content/images/photo.jpg' }
+  const image = new ImageComponents(req, ['example.com'], '')
+  expect(image.getHostname()).toBe('example.com')
+  expect(image.isOriginAllowed()).toBe(true)
+})
+
+it('Blocks SVG regardless of case (.SVG uppercase)', () => {
+  const req = { url: 'content/images/2020/08/icon.SVG' }
+  const image = new ImageComponents(req, [], '')
+  expect(image.getExtension()).toBe('.svg')
+  expect(image.isResizeAllowed()).toBe(false)
+})
+
+it('Blocks GIF regardless of case (.GIF uppercase)', () => {
+  const req = { url: 'content/images/2020/08/animation.GIF' }
+  const image = new ImageComponents(req, [], '')
+  expect(image.getExtension()).toBe('.gif')
+  expect(image.isResizeAllowed()).toBe(false)
+})
+
+it('Allows all origins when allowedOrigins is empty', () => {
+  const req = { url: 'https://evil.com/content/images/photo.jpg' }
+  const image = new ImageComponents(req, [], '')
+  expect(image.isOriginAllowed()).toBe(true)
+})
+
+it('Accepts a single allowed origin entry', () => {
+  const req = { url: 'https://example.com/content/images/photo.jpg' }
+  const image = new ImageComponents(req, ['example.com'], '')
+  expect(image.isOriginAllowed()).toBe(true)
+})
+
+it('Matches hostnames case-insensitively', () => {
+  const req = { url: 'https://Example.COM/content/images/photo.jpg' }
+  const image = new ImageComponents(req, ['example.com'], '')
+  expect(image.isOriginAllowed()).toBe(true)
+})

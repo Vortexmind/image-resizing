@@ -77,3 +77,34 @@ it('quality is a number not a string', () => {
   expect(typeof resizerOptions.getOptions().cf.image.quality).toBe('number')
   expect(resizerOptions.getOptions().cf.image.quality).toBe(85)
 })
+
+it('Falls back to MAX_WIDTH when size is 0', () => {
+  const myHeaders = new Headers({ Accept: 'image/webp, */*' })
+  const resizerOptions = new ResizerOptions(myHeaders, 0, '.jpg')
+  expect(resizerOptions.getOptions().cf.image.width).toBe(1000)
+})
+
+it('Falls back to MAX_WIDTH when size is negative', () => {
+  const myHeaders = new Headers({ Accept: 'image/webp, */*' })
+  const resizerOptions = new ResizerOptions(myHeaders, -1, '.jpg')
+  expect(resizerOptions.getOptions().cf.image.width).toBe(1000)
+})
+
+it('Uses exact size when size equals MAX_WIDTH (boundary)', () => {
+  const myHeaders = new Headers({ Accept: 'image/webp, */*' })
+  const resizerOptions = new ResizerOptions(myHeaders, 1000, '.jpg')
+  expect(resizerOptions.getOptions().cf.image.width).toBe(1000)
+})
+
+it('Clamps to MAX_WIDTH when size exceeds it by 1 (boundary+1)', () => {
+  const myHeaders = new Headers({ Accept: 'image/webp, */*' })
+  const resizerOptions = new ResizerOptions(myHeaders, 1001, '.jpg')
+  expect(resizerOptions.getOptions().cf.image.width).toBe(1000)
+})
+
+it('Defaults to auto format when size is null with specific Accept header', () => {
+  const myHeaders = new Headers({ Accept: 'image/webp, */*' })
+  const resizerOptions = new ResizerOptions(myHeaders, null, '.jpg')
+  expect(resizerOptions.getOptions().cf.image.width).toBe(1000)
+  expect(resizerOptions.getOptions().cf.image.format).toBe('webp')
+})

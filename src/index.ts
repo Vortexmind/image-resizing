@@ -25,7 +25,7 @@ async function handleRequest(request: Request, env: Env): Promise<Response> {
     /* ALLOWED_ORIGINS is a comma-separated string of hostnames from env */
     const imgComponents = new ImageComponents(
       request,
-      (env.ALLOWED_ORIGINS ?? '').split(',').map((o: string) => o.trim()),
+      (env.ALLOWED_ORIGINS ?? '').split(',').map((o: string) => o.trim()).filter((o: string) => o.length > 0),
       env.CUSTOM_HEADER
     )
 
@@ -68,7 +68,7 @@ async function handleRequest(request: Request, env: Env): Promise<Response> {
     /* Last-resort fallback — serve the original request unmodified */
     console.log('Error during image resizing, falling back to origin: ' + err)
     try {
-      return fetch(request)
+      return await fetch(request)
     } catch (fallbackErr) {
       console.log('Origin fallback also failed: ' + fallbackErr)
       return new Response('Error fetching image', { status: 500 })
