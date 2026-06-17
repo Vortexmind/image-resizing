@@ -1,7 +1,11 @@
 name = "image-resizing"
 workers_dev = false
-compatibility_date = "2022-07-12"
-main = "./index.js"
+compatibility_date = "2026-06-17"
+compatibility_flags = ["nodejs_compat"]
+main = "./src/index.ts"
+
+[observability]
+head_sampling_rate = 1
 
 # ---------------------------------------------------------------------------
 # Environment variables

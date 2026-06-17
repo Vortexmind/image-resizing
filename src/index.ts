@@ -1,7 +1,4 @@
-/*global CUSTOM_HEADER*/
-/*global ALLOWED_ORIGINS*/
-
-w /**
+/**
  * REQUIRED ENVIRONMENT VARIABLES (configure in wrangler.toml [vars] or Worker dashboard):
  *
  *   ALLOWED_ORIGINS  - Comma-separated list of allowed hostnames, e.g. "www.example.com,cdn.example.com"
@@ -10,25 +7,26 @@ w /**
  *                      e.g. "x-my-token,secret123". Leave empty if not needed.
  */
 
-import ImageComponents from './src/imageComponents'
-import ResizerOptions from './src/resizerOptions'
+import ImageComponents from './imageComponents'
+import ResizerOptions from './resizerOptions'
 
-addEventListener('fetch', (event) => {
-  /* Return the origin image directly if the request is from the resizer itself */
-  if (/image-resizing/.test(event.request.headers.get('via'))) {
-    event.respondWith(fetch(event.request))
-  } else {
-    event.respondWith(handleRequest(event.request))
-  }
-})
+export default {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+    /* Return the origin image directly if the request is from the resizer itself */
+    if (/image-resizing/.test(request.headers.get('via') ?? '')) {
+      return fetch(request)
+    }
+    return handleRequest(request, env)
+  },
+}
 
-async function handleRequest(request) {
+async function handleRequest(request: Request, env: Env): Promise<Response> {
   try {
-    /* ALLOWED_ORIGINS is a comma-separated string of hostnames */
+    /* ALLOWED_ORIGINS is a comma-separated string of hostnames from env */
     const imgComponents = new ImageComponents(
       request,
-      ALLOWED_ORIGINS.split(',').map((o) => o.trim()),
-      CUSTOM_HEADER
+      (env.ALLOWED_ORIGINS ?? '').split(',').map((o: string) => o.trim()),
+      env.CUSTOM_HEADER
     )
 
     if (!imgComponents.isResizeAllowed() || !imgComponents.isOriginAllowed()) {
@@ -46,14 +44,16 @@ async function handleRequest(request) {
 
     if (imgComponents.hasCustomHeader()) {
       const customHeader = imgComponents.getCustomHeader()
-      newHeaders.append(customHeader.name, customHeader.value)
+      if (customHeader) {
+        newHeaders.append(customHeader.name, customHeader.value)
+      }
     }
 
     const imageRequest = new Request(imgComponents.getUnsizedUrl(), {
       headers: newHeaders,
     })
 
-    const response = await fetch(imageRequest, imageResizerOptions.getOptions())
+    const response = await fetch(imageRequest, imageResizerOptions.getOptions() as any)
 
     if (response.ok) {
       return response
