@@ -11,7 +11,7 @@
   "author": "Paolo Tagliaferri <me@paolotagliaferri.com>",
   "license": "MIT",
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260617.1",
+    "@cloudflare/workers-types": "^5.0.0",
     "@eslint/js": "^10.0.0",
     "@types/jest": "^30.0.0",
     "eslint": "10.8.0",
