@@ -108,7 +108,7 @@ it('Appends custom header to resizer fetch request', async () => {
   expect(fetchArg.headers.get('x-token')).toBe('abc123')
 })
 
-it('Allows all origins when ALLOWED_ORIGINS is empty', async () => {
+it('Passes request through to origin when ALLOWED_ORIGINS is empty', async () => {
   mockFetch.mockResolvedValueOnce(new Response('ok', { status: 200 }))
   const request = new Request('https://any-domain.com/content/images/size/w300/photo.jpg')
   const env = makeEnv({ ALLOWED_ORIGINS: '' })
@@ -117,7 +117,7 @@ it('Allows all origins when ALLOWED_ORIGINS is empty', async () => {
   expect(mockFetch).toHaveBeenCalledTimes(1)
 })
 
-it('Allows all origins when ALLOWED_ORIGINS is undefined', async () => {
+it('Passes request through to origin when ALLOWED_ORIGINS is undefined', async () => {
   mockFetch.mockResolvedValueOnce(new Response('ok', { status: 200 }))
   const request = new Request('https://any-domain.com/content/images/size/w300/photo.jpg')
   const env = makeEnv({ ALLOWED_ORIGINS: undefined })

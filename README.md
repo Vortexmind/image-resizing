@@ -66,7 +66,7 @@ CUSTOM_HEADER = "x-resize-token,your-secret-token"
 ```
 
 > **`ALLOWED_ORIGINS`** — Comma-separated list of hostnames permitted as image origins.
-> Leave empty (`""`) to allow all origins (not recommended for production).
+> Leave empty (`""`) to deny all origins (no origin allowed by default).
 
 > **`CUSTOM_HEADER`** — Optional header to append to resizer fetch requests.
 > Format: `"header-name,header-value"`. Both parts must be non-empty.
@@ -120,10 +120,10 @@ If the URL has no size segment, or the origin isn't allowlisted, the request pas
 
 ### Environment Variables (`wrangler.toml` `[vars]`)
 
-| Variable            | Required | Default | Description                                                                 |
-| ------------------- | -------- | ------- | --------------------------------------------------------------------------- |
-| `ALLOWED_ORIGINS`   | No       | `""`    | Comma-separated hostname allowlist. Empty = allow all.                      |
-| `CUSTOM_HEADER`     | No       | `""`    | Custom request header to forward, formatted as `"name,value"`.              |
+| Variable            | Required | Default | Description                                                                                    |
+| ------------------- | -------- | ------- | ---------------------------------------------------------------------------------------------- |
+| `ALLOWED_ORIGINS`   | No       | `""`    | Comma-separated hostname allowlist. Empty = deny all (no origin allowed by default).           |
+| `CUSTOM_HEADER`     | No       | `""`    | Custom request header to forward, formatted as `"name,value"`.                                 |
 
 ### Worker Configuration (`wrangler.toml`)
 
@@ -167,7 +167,7 @@ Captures 100% of request logs and traces for debugging. Adjust the sampling rate
 Request flow:
 
 1. Browser requests `/content/images/size/w300/photo.jpg`.
-2. Worker validates the origin against `ALLOWED_ORIGINS` (if set).
+2. Worker validates the origin against `ALLOWED_ORIGINS` (empty denies all origins).
 3. Worker strips the `/size/w300/` segment → requests `/content/images/photo.jpg` from origin.
 4. Worker applies `cf.image` transformation: width, format, quality, metadata stripping.
 5. Cloudflare's edge resizer returns the optimised image directly to the browser.

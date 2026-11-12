@@ -210,10 +210,10 @@ it('Blocks GIF regardless of case (.GIF uppercase)', () => {
   expect(image.isResizeAllowed()).toBe(false)
 })
 
-it('Allows all origins when allowedOrigins is empty', () => {
+it('Denies all origins when allowedOrigins is empty', () => {
   const req = { url: 'https://evil.com/content/images/photo.jpg' }
   const image = new ImageComponents(req, [], '')
-  expect(image.isOriginAllowed()).toBe(true)
+  expect(image.isOriginAllowed()).toBe(false)
 })
 
 it('Accepts a single allowed origin entry', () => {

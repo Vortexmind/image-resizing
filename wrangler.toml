@@ -15,7 +15,7 @@ head_sampling_rate = 1
 # Comma-separated list of hostnames permitted as image origins.
 # Requests from any other absolute URL origin will be passed through unresized.
 # Example: "www.yourblog.com,cdn.yourblog.com"
-# Leave empty ("") to allow all origins (not recommended for production).
+# Leave empty ("") to deny all origins (no origin allowed by default).
 ALLOWED_ORIGINS = ""
 
 # Optional custom header to append to resizer fetch requests.

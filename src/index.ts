@@ -2,7 +2,7 @@
  * REQUIRED ENVIRONMENT VARIABLES (configure in wrangler.toml [vars] or Worker dashboard):
  *
  *   ALLOWED_ORIGINS  - Comma-separated list of allowed hostnames, e.g. "www.example.com,cdn.example.com"
- *                      Leave empty to allow all origins.
+ *                      Leave empty to deny all origins (no origin is allowed by default).
  *   CUSTOM_HEADER    - Optional custom request header to forward, formatted as "header-name,header-value"
  *                      e.g. "x-my-token,secret123". Leave empty if not needed.
  */
