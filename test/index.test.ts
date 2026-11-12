@@ -3,6 +3,8 @@ import Worker from '../src/index.ts'
 
 let mockFetch: jest.Mock
 
+const originalFetch = globalThis.fetch
+
 const mockCtx = { waitUntil: jest.fn(), passThroughOnException: jest.fn() } as any
 
 const makeEnv = (overrides?: Record<string, string | undefined>): any => ({
@@ -16,11 +18,11 @@ const makeErrorResponse = (): Response => new Response('error', { status: 500 })
 
 beforeEach(() => {
   mockFetch = jest.fn()
-  jest.spyOn(globalThis, 'fetch').mockImplementation(mockFetch)
+  globalThis.fetch = mockFetch as unknown as typeof fetch
 })
 
 afterEach(() => {
-  jest.restoreAllMocks()
+  globalThis.fetch = originalFetch
 })
 
 it('Returns original image when via header contains image-resizing', async () => {
