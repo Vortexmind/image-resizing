@@ -66,7 +66,7 @@ class ImageComponents {
 
   isOriginAllowed(): boolean {
     if (!this.isAbsolute) return true
-    if (this.allowedOrigins.length === 0) return true
+    if (this.allowedOrigins.length === 0) return false
     if (this.allowedOrigins.some(allowed => allowed.toLowerCase() === this.getHostname().toLowerCase())) return true
     return false
   }
